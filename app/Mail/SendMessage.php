@@ -38,7 +38,7 @@ class SendMessage extends Mailable
     public function build()
     {
         return $this->subject($this->data['subject'])
-                    ->setBody($this->data['message']);
+                    ->setBody($this->data['body']);
                     
     }
 }
