@@ -7,6 +7,7 @@ use App\Models\Message;
 use App\Services\Contracts\MessageInterface;
 use Log;
 use Validator;
+use Illuminate\Support\Facades\Mail;
 
 class MessageService implements MessageInterface
 {
@@ -92,6 +93,12 @@ class MessageService implements MessageInterface
             $newData['body'] = $data['body'];
             $newData['replied'] = isset($data['replied']) ? $data['replied'] : CoreConstants::FALSE;
             isset($data['created_at']) && $newData['created_at'] = $data['created_at'];
+
+            Mail::raw($newData, function ($data) {
+                $data->to('contact@bilalarshad.me')
+                    ->subject($data['subject'])
+                    ->setBody($data['body']);
+            });
             
             if (isset($data['id'])) {
                 $result = $this->getById($data['id'], ['id']);
