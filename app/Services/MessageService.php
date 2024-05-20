@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Mail\SendMessage;
 use CoreConstants;
 use App\Models\Message;
 use App\Services\Contracts\MessageInterface;
@@ -94,11 +95,7 @@ class MessageService implements MessageInterface
             $newData['replied'] = isset($data['replied']) ? $data['replied'] : CoreConstants::FALSE;
             isset($data['created_at']) && $newData['created_at'] = $data['created_at'];
 
-            Mail::send('mail', $newData, function($message) {
-                $message->to('contact@bilalarshad.me', 'Portfolio')->subject
-                   ($message['subject']);
-                $message->setBody($message['body']);
-             });
+            Mail::to('contact@bilalarshad.me')->send(new SendMessage($newData));
             
             if (isset($data['id'])) {
                 $result = $this->getById($data['id'], ['id']);
