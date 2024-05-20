@@ -38,6 +38,6 @@ class SendMessage extends Mailable
     public function build()
     {
         return $this->to('contact@bilalarshad.me')->subject($this->data['subject'])
-                    ->view('views.emails.send_message', ['data' => $this->data]);
+                    ->view('emails.send_message', ['data' => $this->data]);
     }
 }
